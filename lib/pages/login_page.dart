@@ -8,11 +8,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginPage> {
+  bool _passwordVisible = false;
   final _formKey = GlobalKey<FormState>();
   String _username = "";
   String _password = "";
 
   void _submitForm() async {
+   /*  print("usuario:" + _username);
+    print("senha:" + _password); */
     if (_formKey.currentState!.validate()) {
       _formKey.currentState?.save();
       final loginData = {'username': _username, 'password': _password};
@@ -59,45 +62,113 @@ class _LoginScreenState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tela de Login'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Container(
+        padding: EdgeInsets.only(top: 60, left: 40, right: 40),
+        color: Colors.white,
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
             children: <Widget>[
+              SizedBox(
+                width: 128,
+                height: 200,
+                child: Image.asset("assets/Logo.png"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Login'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Digite seu login';
+                    return 'Campo obrigatório';
                   }
                   return null;
                 },
                 onSaved: (value) {
                   _username = value!;
                 },
+                decoration: InputDecoration(
+                  labelText: "Usuário",
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: 10,
               ),
               TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Senha'),
+                // autofocus: true,
+                keyboardType: TextInputType.text,
+                obscureText: !_passwordVisible,
+                onChanged: (value) => _password = value,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Digite sua senha';
+                    return 'Campo obrigatório';
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  _password = value!;
-                },
+                decoration: InputDecoration(
+                  labelText: "Senha",
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                  suffixIcon: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                    child: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                style: TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Confirmar'),
+              Container(
+                height: 40,
+                alignment: Alignment.centerRight,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 50,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                    color: Color(0xFF3C5A99),
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: SizedBox.expand(
+                  child: ElevatedButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Logar",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                    onPressed: _submitForm,
+                  ),
+                ),
               ),
             ],
           ),
