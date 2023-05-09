@@ -24,13 +24,10 @@ class _LoginScreenState extends State<LoginPage> {
       final response = await fetchLoginData(loginDataJson);
       if (response == 'success') {
         // exibir mensagem de sucesso
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text('Login bem sucedido'),
-            content: Text('Seus dados de login foram verificados com sucesso.'),
-          ),
-        );
+          Navigator.push(
+                   context,
+                   MaterialPageRoute(builder: (context) => ProductListScreen()),
+                   );
       } else {
         // exibir mensagem de erro
         showDialog(
@@ -168,12 +165,7 @@ class _LoginScreenState extends State<LoginPage> {
                       ],
                     ),
                     onPressed: () {
-                  Navigator.push(
-                   context,
-                   MaterialPageRoute(builder: (context) => ProductListScreen()),
-                        
-                   );
-
+                        _submitForm();
                     }
                   ),
                 ),
@@ -185,3 +177,4 @@ class _LoginScreenState extends State<LoginPage> {
     );
   }
 }
+
