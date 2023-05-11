@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:pi/entities/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi/pages/product_detail_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
   @override
@@ -29,6 +30,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
   }
 
+  void _showProductDetails(Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailsScreen(product: product),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,10 +61,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 final product = snapshot.data![index];
-                return ListTile(
-                  leading: Image.network(product.image),
-                  title: Text(product.title),
-                  subtitle: Text(product.description),
+                return GestureDetector(
+                  onTap: () => _showProductDetails(product),
+                  child: ListTile(
+                    leading: Image.network(product.image),
+                    title: Text(product.title),
+                    subtitle: Text(product.description),
+                  ),
                 );
               },
             );
