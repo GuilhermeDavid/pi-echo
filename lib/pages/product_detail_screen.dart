@@ -17,30 +17,33 @@ class ProductDetailsScreen extends StatelessWidget {
         title: Text(product.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(product.image),
-            SizedBox(height: 16),
-            Text(
-              product.title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(product.image),
+              SizedBox(height: 16),
+              Text(
+                product.title,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Preço: \$${product.price}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 8),
-            Text(
-              product.description,
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
+              SizedBox(height: 8),
+              Text(
+                'Preço: \$${product.price}',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 8),
+              Text(
+                
+                product.description,
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        )
       ),
     );
   }
