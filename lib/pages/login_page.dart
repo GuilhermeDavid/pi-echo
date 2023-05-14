@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi/pages/product_list_screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,13 +24,10 @@ class _LoginScreenState extends State<LoginPage> {
       final response = await fetchLoginData(loginDataJson);
       if (response == 'success') {
         // exibir mensagem de sucesso
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text('Login bem sucedido'),
-            content: Text('Seus dados de login foram verificados com sucesso.'),
-          ),
-        );
+          Navigator.push(
+                   context,
+                   MaterialPageRoute(builder: (context) => ProductListScreen()),
+                   );
       } else {
         // exibir mensagem de erro
         showDialog(
@@ -166,7 +164,9 @@ class _LoginScreenState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    onPressed: _submitForm,
+                    onPressed: () {
+                        _submitForm();
+                    }
                   ),
                 ),
               ),
@@ -177,3 +177,4 @@ class _LoginScreenState extends State<LoginPage> {
     );
   }
 }
+
