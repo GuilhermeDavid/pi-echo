@@ -66,7 +66,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   child: ListTile(
                     leading: Image.network(product.image),
                     title: Text(product.title),
-                    subtitle: Text(product.description),
+                    subtitle: Text("Preço: " +  product.price.toString()),
                   ),
                 );
               },

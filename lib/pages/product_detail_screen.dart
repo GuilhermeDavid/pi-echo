@@ -3,28 +3,47 @@ import 'dart:convert';
 import 'package:pi/entities/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi/pages/Cart_screen.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final Product product;
 
   const ProductDetailsScreen({Key? key, required this.product})
       : super(key: key);
 
   @override
+  _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final Cart cart = Cart();
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        title: Text(widget.product.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen(cart: cart)),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.network(product.image),
+              Image.network(widget.product.image),
               SizedBox(height: 16),
               Text(
-                product.title,
+                widget.product.title,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -32,18 +51,29 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'Preço: \$${product.price}',
+                'Preço: \$${widget.product.price}',
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 8),
               Text(
-                
-                product.description,
+                widget.product.description,
                 style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  cart.add(widget.product);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Produto adicionado ao carrinho!'),
+                    ),
+                  );
+                },
+                child: Text('Adicionar ao carrinho'),
               ),
             ],
           ),
-        )
+        ),
       ),
     );
   }
