@@ -11,7 +11,10 @@ class Cart {
   }
 
   void remove(Product product) {
-    _items.remove(product);
+    final index = _items.indexOf(product);
+    if (index >= 0) {
+      _items.removeAt(index);
+    }
   }
 
   double get total => _items.fold(0, (sum, item) => sum + item.price);
@@ -43,6 +46,7 @@ class CartScreen extends StatelessWidget {
                     icon: Icon(Icons.delete),
                     onPressed: () {
                       cart.remove(product);
+                      
                     },
                   ),
                 );
@@ -61,7 +65,7 @@ class CartScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    // TODO: Implementar a finalização da compra
+                    
                   },
                   child: Text('Finalizar Compra'),
                 ),

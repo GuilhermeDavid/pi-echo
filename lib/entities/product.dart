@@ -22,4 +22,19 @@ class Product  {
       image: json['image'],
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Product &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          title == other.title &&
+          image == other.image &&
+          price == other.price &&
+          description == other.description;
+          
+
+  @override
+  int get hashCode => id.hashCode ^ title.hashCode ^ image.hashCode ^ price.hashCode ^ description.hashCode;
 }
