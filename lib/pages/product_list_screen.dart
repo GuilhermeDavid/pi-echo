@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:pi/entities/product.dart';
 import 'package:pi/pages/product_detail_screen.dart';
 import 'package:pi/pages/Cart_screen.dart';
+import 'package:pi/entities/cart.dart';
 
 class ProductListScreen extends StatefulWidget {
   final Cart cart; // Adicione o parâmetro cart
