@@ -7,8 +7,9 @@ import 'package:pi/pages/Cart_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final Product product;
+  final Cart cart;
 
-  const ProductDetailsScreen({Key? key, required this.product})
+  const ProductDetailsScreen({Key? key, required this.product, required this.cart})
       : super(key: key);
 
   @override
@@ -16,8 +17,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  final Cart cart = Cart();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +28,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CartScreen(cart: cart)),
+                MaterialPageRoute(builder: (context) => CartScreen(cart: widget.cart)),
               );
             },
           ),
@@ -62,7 +61,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  cart.add(widget.product);
+                  widget.cart.add(widget.product);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Produto adicionado ao carrinho!'),

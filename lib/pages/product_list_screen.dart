@@ -1,11 +1,16 @@
 import 'dart:convert';
 
-import 'package:pi/entities/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi/entities/product.dart';
 import 'package:pi/pages/product_detail_screen.dart';
+import 'package:pi/pages/Cart_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
+  final Cart cart; // Adicione o parâmetro cart
+
+  const ProductListScreen({required this.cart}); // Atualize o construtor
+
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
 }
@@ -34,7 +39,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProductDetailsScreen(product: product),
+        builder: (context) =>
+            ProductDetailsScreen(product: product, cart: widget.cart),
       ),
     );
   }
@@ -44,6 +50,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Product List'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CartScreen(cart: widget.cart)),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<List<Product>>(
         future: _productsFuture,
@@ -66,7 +84,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   child: ListTile(
                     leading: Image.network(product.image),
                     title: Text(product.title),
-                    subtitle: Text("Preço: " +  product.price.toString()),
+                    subtitle: Text("Preço: " + product.price.toString()),
                   ),
                 );
               },
