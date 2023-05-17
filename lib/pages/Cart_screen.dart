@@ -48,7 +48,7 @@ class CartScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    
+                    cart.finalizarCompra(cart.items);
                   },
                   child: Text('Finalizar Compra'),
                 ),
