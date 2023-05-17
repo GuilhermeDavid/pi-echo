@@ -28,7 +28,7 @@ class Cart {
     final url = Uri.parse('http://localhost:3000/sale');
 
     final itemsMap = items
-        .map((product) => {'productId': product.id, 'quantidade': 1})
+        .map((product) => {'productId': product.id, 'quantidade': 1, 'productName': product.title, "price": product.price})
         .toList();
 
     final data = {
