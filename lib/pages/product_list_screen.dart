@@ -1,10 +1,17 @@
 import 'dart:convert';
 
-import 'package:pi/entities/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi/entities/product.dart';
+import 'package:pi/pages/product_detail_screen.dart';
+import 'package:pi/pages/Cart_screen.dart';
+import 'package:pi/entities/cart.dart';
 
 class ProductListScreen extends StatefulWidget {
+  final Cart cart; // Adicione o parâmetro cart
+
+  const ProductListScreen({required this.cart}); // Atualize o construtor
+
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
 }
@@ -29,11 +36,33 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
   }
 
+  void _showProductDetails(Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            ProductDetailsScreen(product: product, cart: widget.cart),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Product List'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CartScreen(cart: widget.cart)),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<List<Product>>(
         future: _productsFuture,
@@ -51,10 +80,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 final product = snapshot.data![index];
-                return ListTile(
-                  leading: Image.network(product.image),
-                  title: Text(product.title),
-                  subtitle: Text(product.description),
+                return GestureDetector(
+                  onTap: () => _showProductDetails(product),
+                  child: ListTile(
+                    leading: Image.network(product.image),
+                    title: Text(product.title),
+                    subtitle: Text("Preço: " + product.price.toString()),
+                  ),
                 );
               },
             );
