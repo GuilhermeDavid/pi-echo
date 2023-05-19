@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi/pages/product_list_screen.dart';
+import 'package:pi/entities/cart.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginPage> {
+  Cart cart = new Cart();
   bool _passwordVisible = false;
   final _formKey = GlobalKey<FormState>();
   String _username = "";
@@ -26,7 +28,7 @@ class _LoginScreenState extends State<LoginPage> {
         // exibir mensagem de sucesso
           Navigator.push(
                    context,
-                   MaterialPageRoute(builder: (context) => ProductListScreen()),
+                   MaterialPageRoute(builder: (context) => ProductListScreen(cart: cart,)),
                    );
       } else {
         // exibir mensagem de erro
