@@ -66,12 +66,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   color: Color(0xFF38221F), // Cor do preço
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
-                widget.product.description,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF37767C), // Cor da descrição
+              SizedBox(height: 16),
+              Card(
+                color: Color(0xFFE3762B),
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    widget.product.description,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 0, 0, 0), // Cor da descrição
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 16),
