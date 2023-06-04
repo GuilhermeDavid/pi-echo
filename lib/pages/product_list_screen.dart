@@ -50,7 +50,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product List'),
+        title: Text('Lista de Produtos'),
         backgroundColor: Color(0xFFE3762B), // Cor do AppBar
         actions: [
           IconButton(
