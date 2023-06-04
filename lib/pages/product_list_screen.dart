@@ -108,7 +108,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   product.title,
                                   style: TextStyle(
                                     fontSize: 18,
-                                    color: Color(0xFF18171D), // Cor do título
+                                    color: Color(0xFFE3762B), // Cor do título
+                                    fontFamily:
+                                        'Poppins', // Fonte personalizada
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -117,6 +119,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.white, // Cor do preço
+                                    fontFamily:
+                                        'Poppins', // Fonte personalizada
                                   ),
                                 ),
                               ],
