@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginPage> {
                 height: 50,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
-                    color: Color(0xFF3C5A99),
+                    color: Color.fromARGB(255, 32, 138, 224),
                     borderRadius: BorderRadius.circular(30.0)),
                 child: SizedBox.expand(
                   child: ElevatedButton(
