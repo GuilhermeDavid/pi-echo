@@ -24,6 +24,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.product.title),
+        backgroundColor: Color(0xFFE3762B), // Cor do AppBar
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -37,6 +38,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
         ],
       ),
+      backgroundColor: Color(0xFFF2E2CE), // Cor do fundo
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -53,17 +55,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Color(0xFF18171D), // Cor do título
                 ),
               ),
               SizedBox(height: 8),
               Text(
                 'Preço: \$${widget.product.price}',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Color(0xFF38221F), // Cor do preço
+                ),
               ),
               SizedBox(height: 8),
               Text(
                 widget.product.description,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF37767C), // Cor da descrição
+                ),
               ),
               SizedBox(height: 16),
               ElevatedButton(
@@ -75,6 +84,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF703F2A), // Cor do botão
+                ),
                 child: Text('Adicionar ao carrinho'),
               ),
             ],
