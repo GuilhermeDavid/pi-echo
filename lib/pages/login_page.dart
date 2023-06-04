@@ -93,11 +93,10 @@ class _LoginScreenState extends State<LoginPage> {
                 decoration: InputDecoration(
                   labelText: "Usuário",
                   labelStyle: TextStyle(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
-                    fontFamily: 'Poppins'
-                  ),
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      fontFamily: 'Poppins'),
                 ),
                 style: TextStyle(fontSize: 20),
               ),
@@ -118,11 +117,10 @@ class _LoginScreenState extends State<LoginPage> {
                 decoration: InputDecoration(
                   labelText: "Senha",
                   labelStyle: TextStyle(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
-                    fontFamily: 'Poppins'
-                  ),
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      fontFamily: 'Poppins'),
                   suffixIcon: InkWell(
                     onTap: () {
                       setState(() {
@@ -151,29 +149,37 @@ class _LoginScreenState extends State<LoginPage> {
               ),
               Container(
                 height: 50,
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: Color(0xFFE3762B),
-                    borderRadius: BorderRadius.circular(8)),
+                  color: Color(0xFFE3762B),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: SizedBox.expand(
                   child: ElevatedButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Acessar",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: 'Poppins'),
-                                textAlign: TextAlign.center,
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFFE3762B)),
+                      // Modifica a cor de fundo do botão
+                    ),
+                    onPressed: () {
+                      _submitForm();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Acessar",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
                           ),
-                        ],
-                      ),
-                      onPressed: () {
-                        _submitForm();
-                      }),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
