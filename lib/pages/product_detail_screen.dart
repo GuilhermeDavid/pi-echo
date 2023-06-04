@@ -10,7 +10,8 @@ class ProductDetailsScreen extends StatefulWidget {
   final Product product;
   final Cart cart;
 
-  const ProductDetailsScreen({Key? key, required this.product, required this.cart})
+  const ProductDetailsScreen(
+      {Key? key, required this.product, required this.cart})
       : super(key: key);
 
   @override
@@ -29,7 +30,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CartScreen(cart: widget.cart)),
+                MaterialPageRoute(
+                    builder: (context) => CartScreen(cart: widget.cart)),
               );
             },
           ),
@@ -40,7 +42,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.network(widget.product.image),
+              Image.network(
+                widget.product.image,
+                width: MediaQuery.of(context).size.width *
+                    0.5, // Diminuindo a largura da imagem em 50%
+              ),
               SizedBox(height: 16),
               Text(
                 widget.product.title,
