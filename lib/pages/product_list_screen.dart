@@ -8,9 +8,9 @@ import 'package:pi/pages/Cart_screen.dart';
 import 'package:pi/entities/cart.dart';
 
 class ProductListScreen extends StatefulWidget {
-  final Cart cart; // Adicione o parâmetro cart
+  final Cart cart;
 
-  const ProductListScreen({required this.cart}); // Atualize o construtor
+  const ProductListScreen({required this.cart});
 
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
@@ -73,7 +73,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(fontSize: 16),
+              ),
             );
           } else {
             return ListView.builder(
@@ -82,10 +85,37 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 final product = snapshot.data![index];
                 return GestureDetector(
                   onTap: () => _showProductDetails(product),
-                  child: ListTile(
-                    leading: Image.network(product.image),
-                    title: Text(product.title),
-                    subtitle: Text("Preço: " + product.price.toString()),
+                  child: Card(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Image.network(
+                            product.image,
+                            width: 80,
+                            height: 80,
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  product.title,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Price: \$${product.price.toStringAsFixed(2)}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
