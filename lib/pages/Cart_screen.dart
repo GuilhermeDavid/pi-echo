@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pi/entities/product.dart';
 import 'package:pi/entities/cart.dart';
 
-
 class CartScreen extends StatelessWidget {
   final Cart cart;
 
@@ -13,7 +12,9 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Carrinho'),
+        backgroundColor: Color(0xFFE3762B),
       ),
+      backgroundColor: Color(0xFFF2E2CE),
       body: Column(
         children: [
           Expanded(
@@ -29,7 +30,6 @@ class CartScreen extends StatelessWidget {
                     icon: Icon(Icons.delete),
                     onPressed: () {
                       cart.remove(product);
-                      
                     },
                   ),
                 );
@@ -43,18 +43,27 @@ class CartScreen extends StatelessWidget {
               children: [
                 Text(
                   'Total: \$${cart.total}',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                      color: Color(0xFFE3762B)),
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     cart.finalizarCompra(cart.items);
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary:
+                        Color(0xFF38221f), // Define a cor de fundo do botão
+                  ),
                   child: Text('Finalizar Compra'),
                 ),
               ],
             ),
           ),
+          
         ],
       ),
     );
