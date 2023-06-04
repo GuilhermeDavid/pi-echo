@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginPage> {
   String _password = "";
 
   void _submitForm() async {
-   /*  print("usuario:" + _username);
+    /*  print("usuario:" + _username);
     print("senha:" + _password); */
     if (_formKey.currentState!.validate()) {
       _formKey.currentState?.save();
@@ -26,10 +26,13 @@ class _LoginScreenState extends State<LoginPage> {
       final response = await fetchLoginData(loginDataJson);
       if (response == 'success') {
         // exibir mensagem de sucesso
-          Navigator.push(
-                   context,
-                   MaterialPageRoute(builder: (context) => ProductListScreen(cart: cart,)),
-                   );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProductListScreen(
+                    cart: cart,
+                  )),
+        );
       } else {
         // exibir mensagem de erro
         showDialog(
@@ -64,7 +67,7 @@ class _LoginScreenState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(top: 60, left: 40, right: 40),
-        color: Colors.white,
+        color: Color(0xFFF2E2CE),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -93,6 +96,7 @@ class _LoginScreenState extends State<LoginPage> {
                     color: Colors.black38,
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
+                    fontFamily: 'Poppins'
                   ),
                 ),
                 style: TextStyle(fontSize: 20),
@@ -117,6 +121,7 @@ class _LoginScreenState extends State<LoginPage> {
                     color: Colors.black38,
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
+                    fontFamily: 'Poppins'
                   ),
                   suffixIcon: InkWell(
                     onTap: () {
@@ -148,28 +153,27 @@ class _LoginScreenState extends State<LoginPage> {
                 height: 50,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 32, 138, 224),
-                    borderRadius: BorderRadius.circular(30.0)),
+                    color: Color(0xFFE3762B),
+                    borderRadius: BorderRadius.circular(8)),
                 child: SizedBox.expand(
                   child: ElevatedButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Logar",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Acessar",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontFamily: 'Poppins'),
+                                textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
+                        ],
+                      ),
+                      onPressed: () {
                         _submitForm();
-                    }
-                  ),
+                      }),
                 ),
               ),
             ],
@@ -179,4 +183,3 @@ class _LoginScreenState extends State<LoginPage> {
     );
   }
 }
-
