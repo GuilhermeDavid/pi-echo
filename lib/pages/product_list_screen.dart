@@ -51,6 +51,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Product List'),
+        backgroundColor: Color(0xFFE3762B), // Cor do AppBar
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -64,6 +65,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ],
       ),
+      backgroundColor: Color(0xFFF2E2CE), // Cor do fundo
       body: FutureBuilder<List<Product>>(
         future: _productsFuture,
         builder: (context, snapshot) {
@@ -86,6 +88,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 return GestureDetector(
                   onTap: () => _showProductDetails(product),
                   child: Card(
+                    color: Color(0xFF703F2A), // Cor do Card
                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Padding(
                       padding: EdgeInsets.all(16),
@@ -103,12 +106,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               children: [
                                 Text(
                                   product.title,
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xFF18171D), // Cor do título
+                                  ),
                                 ),
                                 SizedBox(height: 8),
                                 Text(
                                   'Price: \$${product.price.toStringAsFixed(2)}',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white, // Cor do preço
+                                  ),
                                 ),
                               ],
                             ),
