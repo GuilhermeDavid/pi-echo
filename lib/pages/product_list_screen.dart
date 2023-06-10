@@ -8,9 +8,9 @@ import 'package:pi/pages/Cart_screen.dart';
 import 'package:pi/entities/cart.dart';
 
 class ProductListScreen extends StatefulWidget {
-  final Cart cart; // Adicione o parâmetro cart
+  final Cart cart;
 
-  const ProductListScreen({required this.cart}); // Atualize o construtor
+  const ProductListScreen({required this.cart});
 
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
@@ -18,6 +18,7 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   late Future<List<Product>> _productsFuture;
+  String _searchQuery = "";
 
   @override
   void initState() {
@@ -46,11 +47,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
+  void _searchProduct(String query) {
+    setState(() {
+      _searchQuery = query;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product List'),
+        title: Text('Lista de Produtos'),
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -64,34 +71,56 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Product>>(
-        future: _productsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data?.length ?? 0,
-              itemBuilder: (BuildContext context, int index) {
-                final product = snapshot.data![index];
-                return GestureDetector(
-                  onTap: () => _showProductDetails(product),
-                  child: ListTile(
-                    leading: Image.network(product.image),
-                    title: Text(product.title),
-                    subtitle: Text("Preço: " + product.price.toString()),
-                  ),
-                );
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: _searchProduct,
+              decoration: InputDecoration(
+                labelText: 'Pesquisar por nome',
+              ),
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Product>>(
+              future: _productsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  final List<Product> filteredProducts = _searchQuery.isEmpty
+                      ? snapshot.data!
+                      : snapshot.data!
+                          .where((product) => product.title
+                              .toLowerCase()
+                              .contains(_searchQuery.toLowerCase()))
+                          .toList();
+                  return ListView.builder(
+                    itemCount: filteredProducts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final product = filteredProducts[index];
+                      return GestureDetector(
+                        onTap: () => _showProductDetails(product),
+                        child: ListTile(
+                          leading: Image.network(product.image),
+                          title: Text(product.title),
+                          subtitle: Text("Preço: " + product.price.toString()),
+                        ),
+                      );
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
