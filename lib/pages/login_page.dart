@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String _username = "";
   String _password = "";
+  String tokenLogin = "";
 
   void _submitForm() async {
     /*  print("usuario:" + _username);
@@ -55,7 +56,11 @@ class _LoginScreenState extends State<LoginPage> {
       },
       body: loginDataJson,
     );
+
     if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final token = jsonData['token'];
+      tokenLogin = token;
       return 'success';
     } else {
       return 'error';
@@ -75,7 +80,7 @@ class _LoginScreenState extends State<LoginPage> {
               SizedBox(
                 width: 128,
                 height: 200,
-                child: Image.asset("assets/Logo.png"),
+                child: Image.asset("LogoEcho.png"),
               ),
               SizedBox(
                 height: 20,
