@@ -12,7 +12,29 @@
         }
       ],
       "id": 1
+    },
+    {
+      "userId": 1,
+      "data": "2023-06-20T00:13:43.734",
+      "produtos": [
+        {
+          "productId": 5,
+          "quantidade": 1,
+          "productName": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
+          "price": 695
+        }
+      ],
+      "id": 2
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "userId": 1,
+      "productId": 5,
+      "quantidade": 1,
+      "productName": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
+      "price": 695,
+      "id": 1
+    }
+  ]
 }
