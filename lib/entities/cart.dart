@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:pi/pages/login_page.dart';
 import 'package:pi/entities/product.dart';
@@ -41,9 +43,8 @@ class Cart {
       _items.removeAt(index);
     }
 
-    final productId = await fetchProductIdFromDatabase(product);
+    final productId = await buscarIdJsonServer(product);
 
-    // Use the retrieved product ID in the endpoint URL
     final url = Uri.parse('http://localhost:3000/cart/$productId');
 
     final response = await http.delete(url);
@@ -56,22 +57,19 @@ class Cart {
     }
   }
 
-  Future<String> fetchProductIdFromDatabase(Product product) async {
-  // Perform the necessary database lookup to retrieve the product ID
-  // This could be an API request or a query to your local database
-  // Return the product ID as a string
-  // Example implementation:
-  final response = await http.get(Uri.parse('http://localhost:3000/cart?productName=${product.title}'));
+  Future<String> buscarIdJsonServer(Product product) async {
+    final response = await http.get(
+        Uri.parse('http://localhost:3000/cart?productId=${product.id}'));
 
-  if (response.statusCode == 200) {
-    final jsonData = jsonDecode(response.body);
-    if (jsonData.length > 0) {
-      return jsonData[0]['id'].toString();
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      if (jsonData.length > 0) {
+        return jsonData[0]['id'].toString();
+      }
     }
+
+    throw Exception('Falha ao buscar ID do produto');
   }
-  
-  throw Exception('Failed to fetch product ID from the database');
-}
 
   Future<void> fetchCartItems() async {
     final url = Uri.parse('http://localhost:3000/cart');
@@ -120,10 +118,28 @@ class Cart {
     if (response.statusCode == 201) {
       print('Compra finalizada com sucesso!');
       items.clear();
+      removeAll();
     } else {
       print(
           'Erro ao finalizar a compra. Código de status: ${response.statusCode}');
     }
+  }
+
+  Future<void> removeAll() async {
+    int produtoId = 1;
+
+    while (true) {
+      final url = Uri.parse('http://localhost:3000/cart/'+ produtoId.toString());
+
+      final response = await http.delete(url);
+
+      if (response.statusCode != 200) {
+        print('Item excluído com sucesso!');
+        break;
+      }
+      produtoId++;
+    }
+     print('todos os itens excluídos com sucesso!');
   }
 
   double get total => _items.fold(0, (sum, item) => sum + item.price);
