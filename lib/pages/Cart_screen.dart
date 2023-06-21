@@ -67,6 +67,22 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  Future<void> updateCartItem(Product product) async {
+    final url = Uri.parse('http://localhost:3000/cart/${product.id}');
+    final data = {'quantidade': product.quantidade};
+    final headers = {'Content-Type': 'application/json'};
+
+    final response =
+        await http.patch(url, headers: headers, body: jsonEncode(data));
+
+    if (response.statusCode == 200) {
+      print('Quantidade do produto atualizada com sucesso: ${product.id}');
+    } else {
+      print(
+          'Erro ao atualizar quantidade do produto: ${product.id}. Código de status: ${response.statusCode}');
+    }
+  }
+
   Future<void> finalizarCompra() async {
     List<Product> cartItems;
     try {
@@ -85,9 +101,9 @@ class _CartScreenState extends State<CartScreen> {
     final itemsMap = cartItems
         .map((product) => {
               'productId': product.id,
-              'quantidade': 1,
+              'quantidade': product.quantidade,
               'productName': product.title,
-              "price": product.price
+              "price": product.price * product.quantidade,
             })
         .toList();
 
@@ -128,7 +144,6 @@ class _CartScreenState extends State<CartScreen> {
     widget.cart.items.clear();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -156,13 +171,39 @@ class _CartScreenState extends State<CartScreen> {
                             leading: Image.network(product.image),
                             title: Text(product.title),
                             subtitle: Text('Preço: \$${product.price}'),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                setState(() {
-                                  widget.cart.remove(product);
-                                });
-                              },
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.remove),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (product.quantidade > 1) {
+                                        product.quantidade--;
+                                        updateCartItem(product);
+                                      }
+                                    });
+                                  },
+                                ),
+                                Text(product.quantidade.toString()),
+                                IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      product.quantidade++;
+                                      updateCartItem(product);
+                                    });
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.cart.remove(product);
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
                           );
                         },
