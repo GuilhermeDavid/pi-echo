@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:pi/entities/product.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:pi/pages/Cart_screen.dart';
 import 'package:pi/entities/cart.dart';
 

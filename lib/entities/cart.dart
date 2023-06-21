@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:pi/pages/login_page.dart';
+
 import 'package:pi/entities/product.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -16,10 +15,11 @@ class Cart {
 
     final data = {
       'userId': 1,
-      'productId': product.id,
+      'id': product.id,
       'quantidade': 1,
-      'productName': product.title,
-      'price': product.price
+      'title': product.title,
+      'price': product.price,
+      'image': product.image
     };
 
     final headers = {'Content-Type': 'application/json'};
@@ -35,14 +35,41 @@ class Cart {
     }
   }
 
-  void remove(Product product) {
+  Future<void> remove(Product product) async {
     final index = _items.indexOf(product);
     if (index >= 0) {
       _items.removeAt(index);
     }
+
+    final productId = await buscarIdJsonServer(product);
+
+    final url = Uri.parse('http://localhost:3000/cart/$productId');
+
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      print('Item excluído com sucesso!');
+    } else {
+      throw Exception(
+          'Erro ao excluir item do carrinho. Código de status: ${response.statusCode}');
+    }
   }
 
-  Future<void> fetchCartItems() async {
+  Future<String> buscarIdJsonServer(Product product) async {
+    final response = await http
+        .get(Uri.parse('http://localhost:3000/cart?id=${product.id}'));
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      if (jsonData.length > 0) {
+        return jsonData[0]['id'].toString();
+      }
+    }
+
+    throw Exception('Falha ao buscar ID do produto');
+  }
+
+  Future<List<Product>> guardarItensLista() async {
     final url = Uri.parse('http://localhost:3000/cart');
 
     final response = await http.get(url);
@@ -50,48 +77,13 @@ class Cart {
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 
-      itemsCart =
-          List<Product>.from(jsonData.map((item) => Product.fromJson(item)));
+      List<Product> itemsCart =
+          jsonData.map<Product>((item) => Product.fromJson(item)).toList();
+
+      return itemsCart;
     } else {
-      print(
+      throw Exception(
           'Erro ao buscar itens do carrinho. Código de status: ${response.statusCode}');
-    }
-  }
-
-  Future<void> finalizarCompra(List<Product> items) async {
-    if (items.isEmpty) {
-      print("No products");
-      return;
-    }
-
-    final url = Uri.parse('http://localhost:3000/sale');
-
-    final itemsMap = items
-        .map((product) => {
-              'productId': product.id,
-              'quantidade': 1,
-              'productName': product.title,
-              "price": product.price
-            })
-        .toList();
-
-    final data = {
-      'userId': 1,
-      'data': DateTime.now().toIso8601String(),
-      'produtos': itemsMap,
-    };
-
-    final headers = {'Content-Type': 'application/json'};
-
-    final response =
-        await http.post(url, headers: headers, body: jsonEncode(data));
-
-    if (response.statusCode == 201) {
-      print('Compra finalizada com sucesso!');
-      items.clear();
-    } else {
-      print(
-          'Erro ao finalizar a compra. Código de status: ${response.statusCode}');
     }
   }
 
