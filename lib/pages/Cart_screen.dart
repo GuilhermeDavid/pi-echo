@@ -44,9 +44,9 @@ class _CartScreenState extends State<CartScreen> {
   double calculateTotal(List<Product> items) {
     double total = 0.0;
     for (var item in items) {
-      total += item.price;
+      total += item.price * item.quantidade;
     }
-    return total;
+    return double.parse(total.toStringAsFixed(2));
   }
 
   Future<List<Product>> guardarItensLista() async {
@@ -67,27 +67,35 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  Future<void> finalizarCompra() async {
-    List<Product> cartItems;
-    try {
-      cartItems = await guardarItensLista();
-    } catch (e) {
-      print('Error fetching cart items: $e');
-      return;
-    }
+  Future<void> updateCartItem(Product product) async {
+    final url = Uri.parse('http://localhost:3000/cart/${product.id}');
+    final data = {'quantidade': product.quantidade};
+    final headers = {'Content-Type': 'application/json'};
 
-    if (cartItems.isEmpty) {
+    final response =
+        await http.patch(url, headers: headers, body: jsonEncode(data));
+
+    if (response.statusCode == 200) {
+      print('Quantidade do produto atualizada com sucesso: ${product.id}');
+    } else {
+      print(
+          'Erro ao atualizar quantidade do produto: ${product.id}. Código de status: ${response.statusCode}');
+    }
+  }
+  
+   Future<void> finalizarCompra() async {
+    if (itemsCart.isEmpty) {
       return;
     }
 
     final url = Uri.parse('http://localhost:3000/sale');
 
-    final itemsMap = cartItems
+    final itemsMap = itemsCart
         .map((product) => {
               'productId': product.id,
-              'quantidade': 1,
+              'quantidade': product.quantidade,
               'productName': product.title,
-              "price": product.price
+              'price': product.price * product.quantidade,
             })
         .toList();
 
@@ -95,20 +103,19 @@ class _CartScreenState extends State<CartScreen> {
       'userId': 1,
       'data': DateTime.now().toIso8601String(),
       'produtos': itemsMap,
+      'valorTotal': calculateTotal(itemsCart),
     };
 
     final headers = {'Content-Type': 'application/json'};
 
-    final response =
-        await http.post(url, headers: headers, body: jsonEncode(data));
+    final response = await http.post(url, headers: headers, body: jsonEncode(data));
 
     if (response.statusCode == 201) {
       print('Compra finalizada com sucesso!');
 
       removeAll();
     } else {
-      print(
-          'Erro ao finalizar a compra. Código de status: ${response.statusCode}');
+      print('Erro ao finalizar a compra. Código de status: ${response.statusCode}');
     }
   }
 
@@ -128,7 +135,6 @@ class _CartScreenState extends State<CartScreen> {
     widget.cart.items.clear();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -155,14 +161,40 @@ class _CartScreenState extends State<CartScreen> {
                           return ListTile(
                             leading: Image.network(product.image),
                             title: Text(product.title),
-                            subtitle: Text('Preço: \$${product.price}'),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                setState(() {
-                                  widget.cart.remove(product);
-                                });
-                              },
+                            subtitle: Text('Preço: \$${(product.price * product.quantidade).toStringAsFixed(2)}'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.remove),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (product.quantidade > 1) {
+                                        product.quantidade--;
+                                        updateCartItem(product);
+                                      }
+                                    });
+                                  },
+                                ),
+                                Text(product.quantidade.toString()),
+                                IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      product.quantidade++;
+                                      updateCartItem(product);
+                                    });
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.cart.remove(product);
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
                           );
                         },
