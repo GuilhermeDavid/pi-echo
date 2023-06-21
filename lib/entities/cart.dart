@@ -60,7 +60,7 @@ class Cart {
 
   Future<String> buscarIdJsonServer(Product product) async {
     final response = await http
-        .get(Uri.parse('http://localhost:3000/cart?productId=${product.id}'));
+        .get(Uri.parse('http://localhost:3000/cart?id=${product.id}'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
