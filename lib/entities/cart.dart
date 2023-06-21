@@ -35,12 +35,43 @@ class Cart {
     }
   }
 
-  void remove(Product product) {
+  Future<void> remove(Product product) async {
     final index = _items.indexOf(product);
     if (index >= 0) {
       _items.removeAt(index);
     }
+
+    final productId = await fetchProductIdFromDatabase(product);
+
+    // Use the retrieved product ID in the endpoint URL
+    final url = Uri.parse('http://localhost:3000/cart/$productId');
+
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      print('Item excluído com sucesso!');
+    } else {
+      throw Exception(
+          'Erro ao excluir item do carrinho. Código de status: ${response.statusCode}');
+    }
   }
+
+  Future<String> fetchProductIdFromDatabase(Product product) async {
+  // Perform the necessary database lookup to retrieve the product ID
+  // This could be an API request or a query to your local database
+  // Return the product ID as a string
+  // Example implementation:
+  final response = await http.get(Uri.parse('http://localhost:3000/cart?productName=${product.title}'));
+
+  if (response.statusCode == 200) {
+    final jsonData = jsonDecode(response.body);
+    if (jsonData.length > 0) {
+      return jsonData[0]['id'].toString();
+    }
+  }
+  
+  throw Exception('Failed to fetch product ID from the database');
+}
 
   Future<void> fetchCartItems() async {
     final url = Uri.parse('http://localhost:3000/cart');

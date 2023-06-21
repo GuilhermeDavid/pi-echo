@@ -19,7 +19,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchCartItems();
+    /* _fetchCartItems(); */
   }
 
   Future<void> _fetchCartItems() async {
