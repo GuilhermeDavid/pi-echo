@@ -2,26 +2,23 @@
   "sale": [
     {
       "userId": 1,
-      "data": "2023-06-21T05:39:16.242",
+      "data": "2023-06-21T05:43:11.427",
       "produtos": [
         {
-          "productId": 4,
+          "productId": 7,
           "quantidade": 1,
-          "productName": "Mens Casual Slim Fit",
-          "price": 15.99
+          "productName": "White Gold Plated Princess",
+          "price": 9.99
+        },
+        {
+          "productId": 1,
+          "quantidade": 1,
+          "productName": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95
         }
       ],
       "id": 1
     }
   ],
-  "cart": [
-    {
-      "userId": 1,
-      "id": 4,
-      "quantidade": 1,
-      "title": "Mens Casual Slim Fit",
-      "price": 15.99,
-      "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg"
-    }
-  ]
+  "cart": []
 }

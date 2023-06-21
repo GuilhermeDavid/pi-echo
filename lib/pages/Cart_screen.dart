@@ -68,7 +68,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future<void> finalizarCompra() async {
-    
     List<Product> cartItems;
     try {
       cartItems = await guardarItensLista();
@@ -117,7 +116,7 @@ class _CartScreenState extends State<CartScreen> {
     final url = Uri.parse('http://localhost:3000/cart');
 
     for (Product product in widget.cart.items) {
-      final response = await http.delete('$url/${product.id}' as Uri);
+      final response = await http.delete(Uri.parse('$url/${product.id}'));
       if (response.statusCode == 200) {
         print('Item removido com sucesso: ${product.id}');
       } else {
