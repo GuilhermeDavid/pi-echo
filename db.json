@@ -1,31 +1,4 @@
 {
-  "sale": [
-    {
-      "userId": 1,
-      "data": "2023-06-21T18:00:17.461",
-      "produtos": [
-        {
-          "productId": 1,
-          "quantidade": 4,
-          "productName": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-          "price": 439.8
-        },
-        {
-          "productId": 5,
-          "quantidade": 3,
-          "productName": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
-          "price": 2085
-        },
-        {
-          "productId": 11,
-          "quantidade": 4,
-          "productName": "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
-          "price": 436
-        }
-      ],
-      "valorTotal": 2960.8,
-      "id": 1
-    }
-  ],
+  "sale": [],
   "cart": []
 }

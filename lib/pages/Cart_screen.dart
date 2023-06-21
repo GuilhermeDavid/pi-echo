@@ -46,7 +46,7 @@ class _CartScreenState extends State<CartScreen> {
     for (var item in items) {
       total += item.price * item.quantidade;
     }
-    return total;
+    return double.parse(total.toStringAsFixed(2));
   }
 
   Future<List<Product>> guardarItensLista() async {
@@ -161,7 +161,7 @@ class _CartScreenState extends State<CartScreen> {
                           return ListTile(
                             leading: Image.network(product.image),
                             title: Text(product.title),
-                            subtitle: Text('Preço: \$${product.price}'),
+                            subtitle: Text('Preço: \$${(product.price * product.quantidade).toStringAsFixed(2)}'),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
