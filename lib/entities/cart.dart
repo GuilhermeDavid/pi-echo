@@ -18,10 +18,11 @@ class Cart {
 
     final data = {
       'userId': 1,
-      'productId': product.id,
+      'id': product.id,
       'quantidade': 1,
-      'productName': product.title,
-      'price': product.price
+      'title': product.title,
+      'price': product.price,
+      'image': product.image
     };
 
     final headers = {'Content-Type': 'application/json'};
@@ -58,8 +59,8 @@ class Cart {
   }
 
   Future<String> buscarIdJsonServer(Product product) async {
-    final response = await http.get(
-        Uri.parse('http://localhost:3000/cart?productId=${product.id}'));
+    final response = await http
+        .get(Uri.parse('http://localhost:3000/cart?productId=${product.id}'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -71,7 +72,7 @@ class Cart {
     throw Exception('Falha ao buscar ID do produto');
   }
 
-  Future<void> fetchCartItems() async {
+  Future<List<Product>> guardarItensLista() async {
     final url = Uri.parse('http://localhost:3000/cart');
 
     final response = await http.get(url);
@@ -79,23 +80,29 @@ class Cart {
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 
-      itemsCart =
-          List<Product>.from(jsonData.map((item) => Product.fromJson(item)));
+      List<Product> itemsCart =
+          jsonData.map<Product>((item) => Product.fromJson(item)).toList();
+
+      return itemsCart;
     } else {
-      print(
+      throw Exception(
           'Erro ao buscar itens do carrinho. Código de status: ${response.statusCode}');
     }
   }
 
   Future<void> finalizarCompra(List<Product> items) async {
-    if (items.isEmpty) {
-      print("No products");
+    // Fetch cart items
+    List<Product> cartItems;
+    try {
+      cartItems = await guardarItensLista();
+    } catch (e) {
+      print('Error fetching cart items: $e');
       return;
     }
 
     final url = Uri.parse('http://localhost:3000/sale');
 
-    final itemsMap = items
+    final itemsMap = cartItems
         .map((product) => {
               'productId': product.id,
               'quantidade': 1,
@@ -129,7 +136,8 @@ class Cart {
     int produtoId = 1;
 
     while (true) {
-      final url = Uri.parse('http://localhost:3000/cart/'+ produtoId.toString());
+      final url =
+          Uri.parse('http://localhost:3000/cart/' + produtoId.toString());
 
       final response = await http.delete(url);
 
@@ -139,7 +147,7 @@ class Cart {
       }
       produtoId++;
     }
-     print('todos os itens excluídos com sucesso!');
+    print('todos os itens excluídos com sucesso!');
   }
 
   double get total => _items.fold(0, (sum, item) => sum + item.price);

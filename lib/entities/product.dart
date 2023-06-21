@@ -16,10 +16,10 @@ class Product  {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'],
-      title: json['title'],
-      description: json['description'],
+      title: json['title'] as String? ?? '',
+      description: json['description'] as String? ?? '' ,
       price: json['price'].toDouble(),
-      image: json['image'],
+      image: json['image'] as String? ?? '',
     );
   }
 
