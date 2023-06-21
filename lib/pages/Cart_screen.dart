@@ -44,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
   double calculateTotal(List<Product> items) {
     double total = 0.0;
     for (var item in items) {
-      total += item.price;
+      total += item.price * item.quantidade;
     }
     return total;
   }
@@ -103,6 +103,7 @@ class _CartScreenState extends State<CartScreen> {
       'userId': 1,
       'data': DateTime.now().toIso8601String(),
       'produtos': itemsMap,
+      'valorTotal': calculateTotal(itemsCart),
     };
 
     final headers = {'Content-Type': 'application/json'};
