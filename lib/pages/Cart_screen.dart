@@ -82,28 +82,20 @@ class _CartScreenState extends State<CartScreen> {
           'Erro ao atualizar quantidade do produto: ${product.id}. Código de status: ${response.statusCode}');
     }
   }
-
-  Future<void> finalizarCompra() async {
-    List<Product> cartItems;
-    try {
-      cartItems = await guardarItensLista();
-    } catch (e) {
-      print('Error fetching cart items: $e');
-      return;
-    }
-
-    if (cartItems.isEmpty) {
+  
+   Future<void> finalizarCompra() async {
+    if (itemsCart.isEmpty) {
       return;
     }
 
     final url = Uri.parse('http://localhost:3000/sale');
 
-    final itemsMap = cartItems
+    final itemsMap = itemsCart
         .map((product) => {
               'productId': product.id,
               'quantidade': product.quantidade,
               'productName': product.title,
-              "price": product.price * product.quantidade,
+              'price': product.price * product.quantidade,
             })
         .toList();
 
@@ -115,16 +107,14 @@ class _CartScreenState extends State<CartScreen> {
 
     final headers = {'Content-Type': 'application/json'};
 
-    final response =
-        await http.post(url, headers: headers, body: jsonEncode(data));
+    final response = await http.post(url, headers: headers, body: jsonEncode(data));
 
     if (response.statusCode == 201) {
       print('Compra finalizada com sucesso!');
 
       removeAll();
     } else {
-      print(
-          'Erro ao finalizar a compra. Código de status: ${response.statusCode}');
+      print('Erro ao finalizar a compra. Código de status: ${response.statusCode}');
     }
   }
 
