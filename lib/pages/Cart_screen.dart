@@ -159,7 +159,9 @@ class _CartScreenState extends State<CartScreen> {
                             trailing: IconButton(
                               icon: Icon(Icons.delete),
                               onPressed: () {
-                                widget.cart.remove(product);
+                                setState(() {
+                                  widget.cart.remove(product);
+                                });
                               },
                             ),
                           );

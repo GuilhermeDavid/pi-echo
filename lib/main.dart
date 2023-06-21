@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:pi/pages/login_page.dart';
-import 'package:pi/pages/product_list_screen.dart';
-import 'package:pi/pages/Cart_screen.dart';
 import 'package:pi/entities/cart.dart';
 
 void main() {

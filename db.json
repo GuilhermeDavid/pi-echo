@@ -1,24 +1,4 @@
 {
-  "sale": [
-    {
-      "userId": 1,
-      "data": "2023-06-21T05:43:11.427",
-      "produtos": [
-        {
-          "productId": 7,
-          "quantidade": 1,
-          "productName": "White Gold Plated Princess",
-          "price": 9.99
-        },
-        {
-          "productId": 1,
-          "quantidade": 1,
-          "productName": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-          "price": 109.95
-        }
-      ],
-      "id": 1
-    }
-  ],
+  "sale": [],
   "cart": []
 }

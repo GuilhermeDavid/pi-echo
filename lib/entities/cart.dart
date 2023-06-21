@@ -1,7 +1,4 @@
-import 'dart:html';
 
-import 'package:flutter/material.dart';
-import 'package:pi/pages/login_page.dart';
 import 'package:pi/entities/product.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -88,66 +85,6 @@ class Cart {
       throw Exception(
           'Erro ao buscar itens do carrinho. Código de status: ${response.statusCode}');
     }
-  }
-
-  Future<void> finalizarCompra(List<Product> items) async {
-    // Fetch cart items
-    List<Product> cartItems;
-    try {
-      cartItems = await guardarItensLista();
-    } catch (e) {
-      print('Error fetching cart items: $e');
-      return;
-    }
-
-    final url = Uri.parse('http://localhost:3000/sale');
-
-    final itemsMap = cartItems
-        .map((product) => {
-              'productId': product.id,
-              'quantidade': 1,
-              'productName': product.title,
-              "price": product.price
-            })
-        .toList();
-
-    final data = {
-      'userId': 1,
-      'data': DateTime.now().toIso8601String(),
-      'produtos': itemsMap,
-    };
-
-    final headers = {'Content-Type': 'application/json'};
-
-    final response =
-        await http.post(url, headers: headers, body: jsonEncode(data));
-
-    if (response.statusCode == 201) {
-      print('Compra finalizada com sucesso!');
-      items.clear();
-      removeAll();
-    } else {
-      print(
-          'Erro ao finalizar a compra. Código de status: ${response.statusCode}');
-    }
-  }
-
-  Future<void> removeAll() async {
-    int produtoId = 1;
-
-    while (true) {
-      final url =
-          Uri.parse('http://localhost:3000/cart/' + produtoId.toString());
-
-      final response = await http.delete(url);
-
-      if (response.statusCode != 200) {
-        print('Item excluído com sucesso!');
-        break;
-      }
-      produtoId++;
-    }
-    print('todos os itens excluídos com sucesso!');
   }
 
   double get total => _items.fold(0, (sum, item) => sum + item.price);
