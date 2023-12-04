@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi/entities/product.dart';
 import 'package:pi/pages/product_detail_screen.dart';
-import 'package:pi/pages/Cart_screen.dart';
+import 'package:pi/pages/cart_screen.dart';
 import 'package:pi/entities/cart.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class ProductListScreen extends StatefulWidget {
   final Cart cart;
@@ -50,6 +50,22 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void _searchProduct(String query) {
     setState(() {
       _searchQuery = query;
+    });
+  }
+
+  // Função para iniciar o chat com o Kommunicate
+  void _startChat() async {
+    dynamic conversationObject = {
+      'appId':
+          '2c659f4b0e57508a4089599853378471c', // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
+    };
+
+    KommunicateFlutterPlugin.buildConversation(conversationObject)
+        .then((clientConversationId) {
+      print(
+          "Conversation builder success : " + clientConversationId.toString());
+    }).catchError((error) {
+      print("Conversation builder error : " + error.toString());
     });
   }
 
@@ -121,6 +137,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
           ),
         ],
+      ),
+      // Adiciona o ícone de chat no canto inferior direito
+      floatingActionButton: FloatingActionButton(
+        onPressed: _startChat,
+        child: Icon(Icons.chat),
       ),
     );
   }
