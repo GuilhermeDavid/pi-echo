@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginPage> {
               SizedBox(
                 width: 128,
                 height: 200,
-                child: Image.asset("LogoEcho.png"),
+                
               ),
               SizedBox(
                 height: 20,
