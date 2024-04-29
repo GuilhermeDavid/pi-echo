@@ -1,0 +1,3 @@
+Rodar o banco:
+json-server --watch db.json
+
