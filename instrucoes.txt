@@ -1,3 +1,5 @@
 Rodar o banco:
 json-server --watch db.json
 
+Login: mor_2314
+Senha: 83r5^_
